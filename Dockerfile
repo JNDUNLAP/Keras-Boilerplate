@@ -1,11 +1,11 @@
 FROM python:3.10.0
 
-WORKDIR /flask
+WORKDIR /src
 
-COPY requirements.txt .
+COPY src/requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "app.py" ]
+CMD [ "python", "src/app.py" ]

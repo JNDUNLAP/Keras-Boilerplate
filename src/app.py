@@ -1,7 +1,7 @@
 from flask import request, Flask, jsonify
 import tensorflow as tf
 import numpy as np
-
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -17,8 +17,14 @@ loaded_model.compile(loss=tf.keras.losses.BinaryCrossentropy(from_logits=True), 
 
 def model_predict(text: str) -> int:
     predictions = loaded_model.predict(np.array([text]))
-    print(predictions)
-    return predictions[0][0]
+    prediction = predictions[0][0]
+    prediction_datetime = datetime.now()
+    if prediction > 0.5:
+        label = 1
+    else:
+        label = 0
+    model_response = {"prediction": label, "probability": float(prediction), "datetime": str(prediction_datetime)}
+    return jsonify(model_response)
 
 
 @app.route('/info', methods=['GET'])
@@ -32,11 +38,10 @@ def info():
 @app.route("/predict", methods=['POST'])
 def predict():
     try:
-        text = request.get_json()
-        text = text['text']
-        pred = str(model_predict([text]))
-        response = {'prediction':pred}
-        return jsonify(response)
+        text=request.get_json()
+        text=text['text']
+        response=model_predict([text])
+        return response
     except ValueError as e:
         return jsonify({'error': str(e).split('\n')[-1].strip()}), 500
 
