@@ -12,17 +12,12 @@ Build your image
 docker build -t <name>
 ```
 
-Check if the image exists
-```
-docker image ls
-```
-
 Run the image as an executable container
 ```
-docker run -it <name or id> sh
+docker run -p 8080:8080 <name> sh
 ```
 
 Test the servable model
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"text":"Hi can you please quote me on this lane out of Norfolk? We need rates soon."}' http://localhost:5000/predict
+curl -X POST -H "Content-Type: application/json" -d '{"text":"Hi can you please quote me on this lane out of Norfolk? We need rates soon."}' http://localhost:8080/predict
 ```
