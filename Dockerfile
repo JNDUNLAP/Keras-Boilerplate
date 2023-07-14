@@ -1,11 +1,19 @@
 FROM python:3.10.0
 
-WORKDIR /src
+WORKDIR /app
 
-COPY src/requirements.txt .
+COPY src/requirements.txt ./requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && pip install uwsgi
 
-COPY . .
+RUN useradd -m myuser
 
-CMD [ "python", "src/app.py" ]
+USER myuser
+
+COPY src/ ./
+
+EXPOSE 8080
+
+HEALTHCHECK CMD curl --fail http://localhost:8080/health || exit 1
+
+CMD ["uwsgi", "--ini", "app.ini"]

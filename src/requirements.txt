@@ -1,2 +1,4 @@
 tensorflow==2.13.0
 Flask==2.3.2
+uWSGI ==2.0.21
+python-dotenv==1.0.0
