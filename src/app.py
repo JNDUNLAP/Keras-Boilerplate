@@ -1,5 +1,6 @@
 from flask import request, Flask, jsonify
 import numpy as np
+
 import os
 from datetime import datetime
 from src.model import loaded_model
