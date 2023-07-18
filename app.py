@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 MODEL_PATH = 'Models/model.keras'
 
+# todo: add auth
+
 # Load model outside 
 def load_model(model_path):
     model = tf.keras.models.load_model(model_path, compile=False)
